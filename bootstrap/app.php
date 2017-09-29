@@ -9,6 +9,9 @@ session_start();
 require_once __DIR__ . '/../vendor/autoload.php';
 
 
+use Respect\Validation\Validator as loadValidation;
+
+
 $app = new \Slim\App([
     'settings' => [
         'displayErrorDetails' => true,
@@ -50,13 +53,17 @@ $container['view'] = function($container){
 
     return $view;
 };
-
+// Eloquent Model binding
 $container['db'] = function($container) use ($capsule){
     return $capsule;
 };
-
+// Validator binding
 $container['validator'] = function($container){
     return new App\Validation\Validator();
+};
+// Cross-Site-Token binding
+$container['csrf'] = function ($container){
+    return new \Slim\Csrf\Guard();
 };
 
 $container['HomeController'] = function($container){
@@ -67,7 +74,18 @@ $container['AuthController'] = function($container){
     return new App\Controllers\Auth\AuthController($container);
 };
 
+
+// 'email'
+//      => Respect::noWhitespace()
+//          ->notEmpty()
+//          ->email()
+//          ->emailAvailable(),
+loadValidation::with('App\\Validation\\Rules');
+
 $app->add(new \App\Middleware\ValidationErrorsMiddleware($container));
+$app->add(new \App\Middleware\OldInputMiddleware($container));
+
+$app->add($container->csrf);
 
 
 require_once __DIR__ . '/../app/route.php';

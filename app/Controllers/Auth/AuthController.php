@@ -17,15 +17,19 @@ class AuthController extends Controller
 {
     public function getSignUp(Request $request, $response)
     {
+        var_dump($this->csrf->getTokenNameKey());
         return $this->view->render($response, 'auth/signup.twig');
     }
+
 
     // sign up works
     public function postSignUp(Request $request, Response $response)
     {
 
         $validation = $this->validator->validate($request,[
-            'email' => Respector::noWhitespace()->notEmpty(),
+            // Available email with customize Load Rules ,
+            // emailAvailable() will call the methods of EmailAvailable->validate()
+            'email' => Respector::noWhitespace()->notEmpty()->email()->emailAvailable(),
             'username' => Respector::noWhitespace()->notEmpty()->alpha(),
             'password' => Respector::noWhitespace()->notEmpty(),
         ]);

@@ -14,8 +14,11 @@
 
                         <div class="form-group {{ errors.email ? 'has-error' : '' }}">
                             <label for="email">Email:</label>
-                            <input type="email" name="email" id="email" placeholder="frame@outlook.com" class="form-control">
-                            
+                            <input type="email" name="email" id="email"
+                                   placeholder="frame@outlook.com"
+                                   class="form-control"
+                                   value="{{ oldInput.email }}">
+
                             {% if errors.email %}
                                 <span class="help-block">{{ errors.email | first }}</span>
                             {% endif %}
@@ -23,7 +26,10 @@
 
                         <div class="form-group {{ errors.username ? 'has-error' : '' }}">
                             <label for="username">Name:</label>
-                            <input type="text" name="username" id="username" placeholder="username" class="form-control">
+                            <input type="text"
+                                   name="username" id="username"
+                                   placeholder="username"
+                                   class="form-control" value="{{ oldInput.username }}">
 
                             {% if errors.username %}
                                 <span class="help-block">{{ errors.username | first }}</span>
@@ -32,7 +38,10 @@
 
                         <div class="form-group {{ errors.password ? 'has-error' : '' }}">
                             <label for="password">password:</label>
-                            <input type="password" name="password" id="password" placeholder="password" class="form-control">
+                            <input type="password"
+                                   name="password" id="password"
+                                   placeholder="password"
+                                   class="form-control" value="{{ oldInput.password }}">
 
                             {% if errors.password %}
                                 <span class="help-block">{{ errors.password | first }}</span>
