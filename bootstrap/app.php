@@ -55,6 +55,10 @@ $container['db'] = function($container) use ($capsule){
     return $capsule;
 };
 
+$container['validator'] = function($container){
+    return new App\Validation\Validator();
+};
+
 $container['HomeController'] = function($container){
     return new App\Controllers\HomeController($container);
 };
@@ -62,6 +66,8 @@ $container['HomeController'] = function($container){
 $container['AuthController'] = function($container){
     return new App\Controllers\Auth\AuthController($container);
 };
+
+$app->add(new \App\Middleware\ValidationErrorsMiddleware($container));
 
 
 require_once __DIR__ . '/../app/route.php';
