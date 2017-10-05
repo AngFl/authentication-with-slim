@@ -30,22 +30,29 @@
                 <button class="btn btn-info" type="submit" >search</button>
             </form>
 
-            <!--<button class="btn btn-info navbar-btn">Sign in</button> -->
+            {#<button class="btn btn-info navbar-btn pull-right">Sign in</button>#}
 
-            <p class="navbar-text">Sign in Mark Zuckerberg</p>
+            {#<p class="navbar-text">Sign in Mark Zuckerberg</p>#}
 
 
             <ul class="nav navbar-nav navbar-right">
+                {% if auth.check %}
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" role="button"> Action<span class="caret"></span>
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
+                       role="button"> {{ auth.user.username }} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another</a></li>
+                        <li><a href="{{ path_for('auth.password.change') }}">Change Password</a></li>
                         <li class="divider"><a href=""></a></li>
-                        <li><a href="#">Something</a></li>
+                        <li><a href="{{ path_for('auth.sign-out') }}">Sign Out</a></li>
                     </ul>
                 </li>
+                {% else %}
+
+                <li><a href="{{ path_for('auth.sign-up') }}">Sign Up</a></li>
+                <li><a href="{{ path_for('auth.sign-in') }}">Sign In</a></li>
+
+                {% endif %}
             </ul>
 
         </div>

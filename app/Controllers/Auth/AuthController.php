@@ -17,7 +17,6 @@ class AuthController extends Controller
 {
     public function getSignUp(Request $request, $response)
     {
-        var_dump($this->csrf->getTokenNameKey());
         return $this->view->render($response, 'auth/signup.twig');
     }
 
@@ -40,14 +39,56 @@ class AuthController extends Controller
         }
 
         $user = new User();
-        $user->create([
+        $registerUser = $user->create([
             'email' => $request->getParam('email'),
             'username' => $request->getParam('username'),
             'password' => password_hash($request->getParam('password'),
                 PASSWORD_DEFAULT)
         ]);
 
+        if($registerUser){
+            $this->auth->attempt(
+                $registerUser->email,
+                $request->getParam('password')
+            );
+        }
+
+
         return $response->withRedirect($this->router->pathFor('home'));
 
+    }
+
+
+    public function getSignIn(Request $request , $response)
+    {
+        return $this->view->render($response, 'auth/signin.twig');
+    }
+
+
+    public function postSignIn(Request $request , Response  $response)
+    {
+        $auth = $this->auth->attempt(
+            $request->getParam('email'),
+            $request->getParam('password')
+        );
+
+        if(! $auth) {
+            return $response->withRedirect($this->router->pathFor('auth.sign-in'));
+        }
+
+        //// flush message
+        return $response->withRedirect($this->router->pathFor('home'));
+    }
+
+
+    public function getSignOut(Request $request , Response  $response)
+    {
+        //sign out /destroy session
+        //redirect
+        if($this->auth->check()){
+            $this->auth->logout();
+
+            return $response->withRedirect($this->router->pathFor('auth.sign-in'));
+        }
     }
 }

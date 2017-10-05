@@ -6,11 +6,11 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Sign Up
+                    Sign In
                 </div>
                 <div class="panel-body">
                     {# route for setName #}
-                    <form action="{{ path_for('auth.sign-up') }}" method="post" autocomplete="off">
+                    <form action="{{ path_for('auth.sign-in') }}" method="post" autocomplete="off">
 
                         <div class="form-group {{ errors.email ? 'has-error' : '' }}">
                             <label for="email">Email:</label>
@@ -24,17 +24,6 @@
                             {% endif %}
                         </div>
 
-                        <div class="form-group {{ errors.username ? 'has-error' : '' }}">
-                            <label for="username">Name:</label>
-                            <input type="text"
-                                   name="username" id="username"
-                                   placeholder="username"
-                                   class="form-control" value="{{ oldInput.username }}">
-
-                            {% if errors.username %}
-                                <span class="help-block">{{ errors.username | first }}</span>
-                            {% endif %}
-                        </div>
 
                         <div class="form-group {{ errors.password ? 'has-error' : '' }}">
                             <label for="password">password:</label>
@@ -48,7 +37,7 @@
                             {% endif %}
                         </div>
 
-                        <button type="submit" class="btn btn-class">Sign Up</button>
+                        <button type="submit" class="btn btn-class">Sign In</button>
 
                         {# csrf field #}
 
